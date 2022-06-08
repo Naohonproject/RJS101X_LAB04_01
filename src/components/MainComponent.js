@@ -18,7 +18,7 @@ class Main extends Component {
 			comments: COMMENTS,
 		};
 	}
-	handleClick() {
+	handleAddDish() {
 		this.setState({
 			dishes: [
 				...this.state.dishes,
@@ -36,7 +36,7 @@ class Main extends Component {
 		});
 	}
 
-	handleClick(dish) {
+	handleShowDetail(dish) {
 		this.setState({ selectedDish: dish });
 	}
 
@@ -47,14 +47,16 @@ class Main extends Component {
 					<div className="container"></div>
 					<NavbarBrand href="/">Some code here</NavbarBrand>
 				</Navbar>
-				<Menu
-					onClick={(dish) => this.handleClick(dish)}
-					selectedDish={this.state.selectedDish}
-					dishes={this.state.dishes}
-				/>
-				<button onClick={() => this.handleClick()}>add more dish</button>
-				<Count numberOfDishes={this.state.dishes.length} />
-				<DishDetail comments={this.state.comments} selectedDish={this.state.selectedDish} />
+				<div className="container">
+					<Menu
+						onClick={(dish) => this.handleShowDetail(dish)}
+						selectedDish={this.state.selectedDish}
+						dishes={this.state.dishes}
+					/>
+					<button onClick={() => this.handleAddDish()}>add more dish</button>
+					<Count numberOfDishes={this.state.dishes.length} />
+					<DishDetail comments={this.state.comments} selectedDish={this.state.selectedDish} />
+				</div>
 			</div>
 		);
 	}
