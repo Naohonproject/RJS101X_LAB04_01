@@ -6,16 +6,11 @@ import { COMMENTS } from "../shared/comments";
 class DishDetail extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			comments: COMMENTS,
-		};
 	}
 
 	renderComments(comments) {
 		const dishId = this.props.selectedDish.id;
-		const dishComments = this.state.comments.filter(
-			(comment) => comment.dishId === dishId
-		);
+		const dishComments = this.props.comments.filter((comment) => comment.dishId === dishId);
 		if (dishComments === null) {
 			return <div></div>;
 		} else {
@@ -46,21 +41,14 @@ class DishDetail extends Component {
 			<div className="row">
 				<div className="col-12 col-md-5 m-1">
 					<Card>
-						<CardImg
-							width="100%"
-							object
-							src={selectedDish.image}
-							alt={selectedDish.name}
-						/>
+						<CardImg width="100%" object src={selectedDish.image} alt={selectedDish.name} />
 						<CardBody>
 							<CardTitle>{selectedDish.name}</CardTitle>
 							<CardText>{selectedDish.description}</CardText>
 						</CardBody>
 					</Card>
 				</div>
-				<div className="col-12 col-md-5 m-1">
-					{this.renderComments(this.state.comments)}
-				</div>
+				<div className="col-12 col-md-5 m-1">{this.renderComments(this.props.comments)}</div>
 			</div>
 		);
 	}
