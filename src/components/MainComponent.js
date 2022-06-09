@@ -2,7 +2,8 @@
 /** @format */
 
 import React, { Component } from "react";
-import { Navbar, NavbarBrand } from "reactstrap";
+import Header from "./HeaderComponent";
+import Footer from "./FooterComponent";
 import Menu from "./MenuComponent";
 import Count from "./Counter";
 import DishDetail from "./DishDetailComponent";
@@ -43,11 +44,8 @@ class Main extends Component {
 	render() {
 		return (
 			<div>
-				<Navbar dark color="primary">
-					<div className="container"></div>
-					<NavbarBrand href="/">Some code here</NavbarBrand>
-				</Navbar>
 				<div className="container">
+					<Header />
 					<Menu
 						onClick={(dish) => this.handleShowDetail(dish)}
 						selectedDish={this.state.selectedDish}
@@ -56,6 +54,7 @@ class Main extends Component {
 					<button onClick={() => this.handleAddDish()}>add more dish</button>
 					<Count numberOfDishes={this.state.dishes.length} />
 					<DishDetail comments={this.state.comments} selectedDish={this.state.selectedDish} />
+					<Footer />
 				</div>
 			</div>
 		);
