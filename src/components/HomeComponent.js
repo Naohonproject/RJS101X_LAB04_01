@@ -1,11 +1,21 @@
 /** @format */
 
 import React from "react";
-
-function Home() {
+import RenderCard from "./RenderCard";
+function Home(props) {
 	return (
 		<div className="container">
-			<h4>Home</h4>
+			<div className="row align-item-start">
+				<div className="col-12 col-md m-1">
+					<RenderCard item={props.dish} />
+				</div>
+				<div className="col-12 col-md m-1">
+					<RenderCard item={props.promotion} />
+				</div>
+				<div className="col-12 col-md m-1">
+					<RenderCard item={props.leader} />
+				</div>
+			</div>
 		</div>
 	);
 }

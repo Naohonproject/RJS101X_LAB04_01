@@ -7,8 +7,12 @@ import Footer from "./FooterComponent";
 import Menu from "./MenuComponent";
 import Count from "./Counter";
 import DishDetail from "./DishDetailComponent";
+import Contact from "./ContactComponent";
 import { DISHES } from "../shared/dishes";
 import { COMMENTS } from "../shared/comments";
+import { LEADERS } from "../shared/leaders";
+import { PROMOTIONS } from "../shared/promotions";
+
 import Home from "./HomeComponent";
 import { Routes, Route, Link } from "react-router-dom";
 
@@ -19,6 +23,8 @@ class Main extends Component {
 			dishes: DISHES,
 			// selectedDish: null,
 			comments: COMMENTS,
+			leaders: LEADERS,
+			promotions: PROMOTIONS,
 		};
 	}
 	handleAddDish() {
@@ -57,9 +63,19 @@ class Main extends Component {
 					{/* <Count numberOfDishes={this.state.dishes.length} /> */}
 					{/* <DishDetail comments={this.state.comments} selectedDish={this.state.selectedDish} /> */}
 					<Routes>
-						<Route path="/home" element={<Home />} />
+						<Route
+							path="/home"
+							element={
+								<Home
+									dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+									promotion={this.state.promotions.filter((pro) => pro.featured)[0]}
+									leader={this.state.leaders.filter((leader) => leader.featured)[0]}
+								/>
+							}
+						/>
 						<Route exact path="/menu" element={<Menu dishes={this.state.dishes} />} />
 						<Route index element={<Home />} />
+						<Route exact path="/contactus" element={<Contact />} />
 					</Routes>
 					<Footer />
 				</div>
