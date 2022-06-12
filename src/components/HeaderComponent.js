@@ -16,32 +16,32 @@ class Header extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Navbar dark expand={"md"}>
+				<Navbar dark expand="md">
 					<div className="container">
 						<NavbarToggler onClick={this.toggleNav} />
 						<NavbarBrand className="mr-auto" href="/">
-							<img src="/src/assets/images/maxresdefault.jpg" alter="img" height="30" width="41" />
+							<img src="../assets/images/logo.jpg" alt="logo" width={50} />
 						</NavbarBrand>
-						<Collapse isOpen={this.state.isNavOpen} navbar>
+						<Collapse navbar>
 							<Nav navbar>
 								<NavItem>
 									<NavLink to="/home" className="nav-link">
-										<span className="fa fa-home fa-lg"></span>Home
+										<span className="fa fa-home fa-lg"></span> Home
 									</NavLink>
 								</NavItem>
 								<NavItem>
 									<NavLink to="/aboutus" className="nav-link">
-										<span className="fa fa-home fa-lg"></span>About Us
+										<span className="fa fa-home fa-lg"></span> About Us
 									</NavLink>
 								</NavItem>
 								<NavItem>
 									<NavLink to="/menu" className="nav-link">
-										<span className="fa fa-list fa-lg"></span>Menu
+										<span className="fa fa-list fa-lg"></span> Menu
 									</NavLink>
 								</NavItem>
 								<NavItem>
 									<NavLink to="/contactus" className="nav-link">
-										<span className="fa fa-address-card fa-lg"></span>Contact us
+										<span className="fa fa-address-card fa-lg"></span> Contact us
 									</NavLink>
 								</NavItem>
 							</Nav>
@@ -52,8 +52,11 @@ class Header extends Component {
 					<div className="container">
 						<div className="row row-header">
 							<div className="col-12 col-sm-6">
-								<h1>Lorem ipsum dolor</h1>
-								<p>Lorem ipsum dolor sit amet, consectetur </p>
+								<h1>Welcome to The King Restaurant</h1>
+								<p>
+									Where you are always be served, whoever you are,wherever you come from, whichever
+									color you are,Always ready to serve
+								</p>
 							</div>
 						</div>
 					</div>

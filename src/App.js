@@ -9,7 +9,7 @@ class App extends Component {
 	render() {
 		return (
 			<Router>
-				<Main />;
+				<Main />
 			</Router>
 		);
 	}

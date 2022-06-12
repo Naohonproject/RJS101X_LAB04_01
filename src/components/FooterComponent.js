@@ -1,5 +1,5 @@
 /** @format */
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 function Footer() {
@@ -30,7 +30,7 @@ function Footer() {
 						<i className="fa fa-phone fa-lg">0379496709</i>
 						<i className="fa fa-fax fa-lg">+845648692</i>
 						<i className="fa fa-envelope fa-lg">
-							: <a href="#">LTB.199X@OUTLOOK.COM</a>
+							: <a href="">LTB.199X@OUTLOOK.COM</a>
 						</i>
 					</div>
 					<div className="col-12 col-sm-4 align-self-center">
