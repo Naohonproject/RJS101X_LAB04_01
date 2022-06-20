@@ -2,7 +2,17 @@
 
 import React, { useState } from "react";
 
-import { BreadcrumbItem, Breadcrumb, Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
+import {
+	BreadcrumbItem,
+	Breadcrumb,
+	Button,
+	Form,
+	FormGroup,
+	Label,
+	Input,
+	Col,
+	FormFeedback,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 function Contact(props) {
 	const [fields, setFileds] = useState({
@@ -13,7 +23,22 @@ function Contact(props) {
 		agree: false,
 		contactType: "Tel.",
 		message: "",
+		touched: {
+			firstname: false,
+			lastname: false,
+			telNum: false,
+			email: false,
+		},
 	});
+	function handleOnBlur(e) {
+		const field = e.target.id;
+		setFileds((prevState) => {
+			return {
+				...prevState,
+				touched: { ...fields.touched, [field]: true },
+			};
+		});
+	}
 	function handleOnInputChange(e) {
 		const id = e.target.id;
 		const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -24,6 +49,34 @@ function Contact(props) {
 			};
 		});
 	}
+
+	function validate(firstname, lastname, telNum, email) {
+		const errors = {
+			firstname: "",
+			lastname: "",
+			telNum: "",
+			email: "",
+		};
+		const nameRegExp = /^[a-z ,.'-]{3,15}$/i;
+		const numberRegExp = /^\d{10,11}$/;
+		const emailRexExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if (fields.touched.firstname && !nameRegExp.test(firstname)) {
+			errors.firstname =
+				"firstname must contains at latest 3 characters and no more 15 characters ";
+		}
+		if (fields.touched.lastname && !nameRegExp.test(lastname)) {
+			errors.lastname = "lastname must contains at latest 3 characters and no more 10 characters ";
+		}
+		if (fields.touched.telNum && !numberRegExp.test(telNum)) {
+			errors.telNum = "phone number must contains 10 or 11 digits";
+		}
+		if (fields.touched.email && !emailRexExp.test(email)) {
+			errors.email = "email is not valid,please type the right email format";
+		}
+		return errors;
+	}
+
+	const errors = validate(fields.firstname, fields.lastname, fields.telNum, fields.email);
 	function handleOnSubmit(e) {
 		console.log("current State is : " + JSON.stringify(fields));
 		alert("current State is : " + JSON.stringify(fields));
@@ -93,13 +146,17 @@ function Contact(props) {
 							</Label>
 							<Col md={10}>
 								<Input
+									onBlur={(e) => handleOnBlur(e)}
 									onChange={(e) => handleOnInputChange(e)}
 									type={"text"}
 									id="firstname"
 									name="firstname"
 									placeHolder="first name"
 									value={fields.firstname}
+									valid={errors.firstname === ""}
+									invalid={errors.firstname !== ""}
 								/>
+								<FormFeedback>{errors.firstname}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
@@ -108,13 +165,17 @@ function Contact(props) {
 							</Label>
 							<Col md={10}>
 								<Input
+									onBlur={(e) => handleOnBlur(e)}
 									onChange={(e) => handleOnInputChange(e)}
 									type={"text"}
 									id="lastname"
 									name="lastname"
 									placeHolder="last name"
 									value={fields.lastname}
+									valid={errors.lastname === ""}
+									invalid={errors.lastname !== ""}
 								/>
+								<FormFeedback>{errors.lastname}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
@@ -123,13 +184,17 @@ function Contact(props) {
 							</Label>
 							<Col md={10}>
 								<Input
+									onBlur={(e) => handleOnBlur(e)}
 									onChange={(e) => handleOnInputChange(e)}
 									type={"tel"}
 									id="telNum"
 									name="telNum"
 									placeHolder="phone number"
 									value={fields.telNum}
+									valid={errors.telNum === ""}
+									invalid={errors.telNum !== ""}
 								/>
+								<FormFeedback>{errors.telNum}</FormFeedback>
 							</Col>
 						</FormGroup>
 						<FormGroup row>
@@ -138,13 +203,17 @@ function Contact(props) {
 							</Label>
 							<Col md={10}>
 								<Input
+									onBlur={(e) => handleOnBlur(e)}
 									onChange={(e) => handleOnInputChange(e)}
 									type={"mail"}
 									id="email"
+									valid={errors.email === ""}
+									invalid={errors.email !== ""}
 									name="email"
 									placeHolder="ltb.199x@gmail.com"
 									value={fields.email}
 								/>
+								<FormFeedback>{errors.email}</FormFeedback>
 							</Col>
 						</FormGroup>
 
