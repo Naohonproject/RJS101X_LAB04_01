@@ -2,17 +2,16 @@
 
 import React, { Component } from "react";
 import { useParams } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Menu from "./MenuComponent";
 import Contact from "./ContactComponent";
-
 import DishDetail from "./DishDetailComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
-import { Routes, Route } from "react-router-dom";
-import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
 	return {
@@ -22,6 +21,7 @@ const mapStateToProps = (state) => {
 		leaders: state.leaders,
 	};
 };
+
 function Main(props) {
 	const DishWithId = () => {
 		const match = useParams();

@@ -12,6 +12,8 @@ import {
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 
+import CommentForm from "./CommentFormComponent";
+
 function DishDetail({ comments, selectedDish }) {
 	function renderComments(comments) {
 		if (comments === null) {
@@ -30,6 +32,9 @@ function DishDetail({ comments, selectedDish }) {
 							);
 						})}
 					</ul>
+					<div className="mt-5">
+						<CommentForm />
+					</div>
 				</div>
 			);
 		}
