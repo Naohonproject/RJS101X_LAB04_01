@@ -5,6 +5,11 @@ import React, { useState } from "react";
 import { BreadcrumbItem, Breadcrumb, Button, Label, Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
 
 function Contact(props) {
 	function handleOnSubmit(value) {
@@ -80,6 +85,21 @@ function Contact(props) {
 									id="firstname"
 									name="firstname"
 									placeHolder="first name"
+									validators={{
+										required,
+										minLength: minLength(3),
+										maxLength: maxLength(15),
+									}}
+								/>
+								<Errors
+									className="text-danger"
+									model=".firstname"
+									show="touched"
+									messages={{
+										required: "This feild is required",
+										minLength: "Must be greater than 2 characters",
+										maxLength: "Must be  15 characters or less",
+									}}
 								/>
 							</Col>
 						</Row>
@@ -94,6 +114,21 @@ function Contact(props) {
 									id="lastname"
 									name="lastname"
 									placeHolder="last name"
+									validators={{
+										required,
+										minLength: minLength(3),
+										maxLength: maxLength(15),
+									}}
+								/>
+								<Errors
+									className="text-danger"
+									model=".lastname"
+									show="touched"
+									messages={{
+										required: "This feild is required",
+										minLength: " Must be greater than 2 characters",
+										maxLength: "Must be  15 characters or less",
+									}}
 								/>
 							</Col>
 						</Row>
@@ -108,6 +143,23 @@ function Contact(props) {
 									id="telNum"
 									name="telNum"
 									placeHolder="phone number"
+									validators={{
+										required,
+										minLength: minLength(10),
+										maxLength: maxLength(12),
+										isNumber,
+									}}
+								/>
+								<Errors
+									className="text-danger"
+									model=".telnum"
+									show="touched"
+									messages={{
+										required: "This feild is required",
+										minLength: "Must be greater than 10 numbers",
+										maxLength: "Must be  12 numbers or less",
+										isNumber: "Must be numbers",
+									}}
 								/>
 							</Col>
 						</Row>
@@ -122,6 +174,19 @@ function Contact(props) {
 									id="email"
 									name="email"
 									placeHolder="ltb.199x@gmail.com"
+									validators={{
+										required,
+										validEmail,
+									}}
+								/>
+								<Errors
+									className="text-danger"
+									model=".email"
+									show="touched"
+									messages={{
+										required: "This feild is required",
+										validEmail: "Email is invalid.Email must be contain @ and domain name",
+									}}
 								/>
 							</Col>
 						</Row>
