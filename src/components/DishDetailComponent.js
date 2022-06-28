@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 import CommentForm from "./CommentFormComponent";
 
-function DishDetail({ comments, selectedDish }) {
+function DishDetail({ comments, selectedDish, totalNumberOfComments }) {
 	function renderComments(comments) {
 		if (comments === null) {
 			return <div></div>;
@@ -33,7 +33,7 @@ function DishDetail({ comments, selectedDish }) {
 						})}
 					</ul>
 					<div className="mt-5">
-						<CommentForm />
+						<CommentForm dishId={selectedDish.id} totalNumberOfComments={totalNumberOfComments} />
 					</div>
 				</div>
 			);

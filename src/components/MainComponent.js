@@ -35,6 +35,7 @@ function Main(props) {
 				comments={props.comments.filter((comment) => {
 					return comment.dishId === parseInt(match.dishID, 10);
 				})}
+				totalNumberOfComments={props.comments.length}
 			/>
 		);
 	};

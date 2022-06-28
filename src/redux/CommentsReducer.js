@@ -3,7 +3,10 @@
 import { COMMENTS } from "../shared/comments";
 
 export const CommentsReducer = (state = COMMENTS, action) => {
+	console.log(action.type);
 	switch (action.type) {
+		case "ADD_COMMENT":
+			return [...state, action.payload];
 		default:
 			return state;
 	}

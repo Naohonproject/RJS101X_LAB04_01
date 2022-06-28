@@ -3,6 +3,9 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, Button, Label, Col, Row } from "reactstrap";
 import { Control, LocalForm, Errors } from "react-redux-form";
+import { connect } from "react-redux";
+
+import addCommentCreator from "../redux/actions/addComment";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -22,8 +25,23 @@ class CommentForm extends Component {
 	}
 
 	handleOnSubmit(value) {
-		alert("current State is : " + JSON.stringify(value));
+		const comment = {
+			id: this.props.totalNumberOfComments,
+			dishId: this.props.dishId,
+			rating: Number(value.rating),
+			comment: value.comments,
+			author: value.name,
+			date: new Date().toISOString(),
+		};
+
+		this.props.dispatch(addCommentCreator(comment));
+
+		this.setState((prev) => ({
+			...this.state,
+			isModalOpen: !this.state.isModalOpen,
+		}));
 	}
+	
 	render() {
 		return (
 			<React.Fragment>
@@ -123,4 +141,4 @@ class CommentForm extends Component {
 	}
 }
 
-export default CommentForm;
+export default connect()(CommentForm);
