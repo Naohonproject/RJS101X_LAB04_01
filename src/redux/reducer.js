@@ -1,16 +1,14 @@
 /** @format */
-import { DISHES } from "../shared/dishes";
-import { COMMENTS } from "../shared/comments";
-import { LEADERS } from "../shared/leaders";
-import { PROMOTIONS } from "../shared/promotions";
+import { combineReducers } from "redux";
 
-export const initialState = {
-	dishes: DISHES,
-	comments: COMMENTS,
-	leaders: LEADERS,
-	promotions: PROMOTIONS,
-};
+import { CommentsReducer } from "./CommentsReducer";
+import { DishesReducer } from "./DishesReducer";
+import { PromotionsReducer } from "./PromotionsReducer";
+import { LeadersReducer } from "./LeadersReducer";
 
-export const Reducer = (state = initialState, action) => {
-	return state;
-};
+export const rootReducer = combineReducers({
+	dishes: DishesReducer,
+	comments: CommentsReducer,
+	promotions: PromotionsReducer,
+	leaders: LeadersReducer,
+});
