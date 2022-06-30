@@ -11,10 +11,11 @@ import {
 } from "reactstrap";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponent";
 
 import CommentForm from "./CommentFormComponent";
-
-function DishDetail({ comments, selectedDish, totalNumberOfComments }) {
+import {} from "./LoadingComponent";
+function DishDetail({ comments, selectedDish, totalNumberOfComments, isLoading, errorMsg }) {
 	function renderComments(comments) {
 		if (comments === null) {
 			return <div></div>;
@@ -40,37 +41,53 @@ function DishDetail({ comments, selectedDish, totalNumberOfComments }) {
 		}
 	}
 
-	if (!selectedDish) {
+	if (isLoading) {
+		return (
+			<div className="container">
+				<div className="row">
+					<Loading />
+				</div>
+			</div>
+		);
+	} else if (errorMsg) {
+		return (
+			<div className="container">
+				<div className="row">
+					<h4>{errorMsg}</h4>
+				</div>
+			</div>
+		);
+	} else if (!selectedDish) {
 		return <div></div>;
-	}
-	return (
-		<div className="container">
-			<div className="row">
-				<Breadcrumb>
-					<BreadcrumbItem>
-						<Link to={`/menu`}>Menu</Link>
-					</BreadcrumbItem>
-					<BreadcrumbItem active>{selectedDish.name}</BreadcrumbItem>
-				</Breadcrumb>
-				<div className="col-12">
-					<h3>{selectedDish.name}</h3>
-					<hr />
+	} else
+		return (
+			<div className="container">
+				<div className="row">
+					<Breadcrumb>
+						<BreadcrumbItem>
+							<Link to={`/menu`}>Menu</Link>
+						</BreadcrumbItem>
+						<BreadcrumbItem active>{selectedDish.name}</BreadcrumbItem>
+					</Breadcrumb>
+					<div className="col-12">
+						<h3>{selectedDish.name}</h3>
+						<hr />
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-12 col-md-5 m-1">
+						<Card>
+							<CardImg width="100%" object src={selectedDish.image} alt={selectedDish.name} />
+							<CardBody>
+								<CardTitle>{selectedDish.name}</CardTitle>
+								<CardText>{selectedDish.description}</CardText>
+							</CardBody>
+						</Card>
+					</div>
+					<div className="col-12 col-md-5 m-1">{renderComments(comments)}</div>
 				</div>
 			</div>
-			<div className="row">
-				<div className="col-12 col-md-5 m-1">
-					<Card>
-						<CardImg width="100%" object src={selectedDish.image} alt={selectedDish.name} />
-						<CardBody>
-							<CardTitle>{selectedDish.name}</CardTitle>
-							<CardText>{selectedDish.description}</CardText>
-						</CardBody>
-					</Card>
-				</div>
-				<div className="col-12 col-md-5 m-1">{renderComments(comments)}</div>
-			</div>
-		</div>
-	);
+		);
 }
 
 export default DishDetail;

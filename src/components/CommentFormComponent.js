@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, Button, Label, Col, Row } from "reactstr
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { connect } from "react-redux";
 
-import addCommentCreator from "../redux/actions/addComment";
+import { addCommentCreator } from "../redux/actions/actionCreators";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -41,7 +41,7 @@ class CommentForm extends Component {
 			isModalOpen: !this.state.isModalOpen,
 		}));
 	}
-	
+
 	render() {
 		return (
 			<React.Fragment>
@@ -81,7 +81,7 @@ class CommentForm extends Component {
 										className="form-control"
 										id="name"
 										name="name"
-										placeHolder="Your Name"
+										placeholder="Your Name"
 										validators={{
 											required,
 											minLength: minLength(5),

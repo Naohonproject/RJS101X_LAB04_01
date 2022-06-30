@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component } from "react";
+import React, { Component, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -12,6 +12,7 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
+import { fetchDishes } from "../redux/actions/actionCreators";
 
 const mapStateToProps = (state) => {
 	return {
@@ -22,13 +23,30 @@ const mapStateToProps = (state) => {
 	};
 };
 
+function mapDispatchToProps(dispatch) {
+	return {
+		fetchDishes: () => {
+			dispatch(fetchDishes());
+		},
+	};
+}
+
 function Main(props) {
+	useEffect(() => {
+		props.fetchDishes();
+	}, []);
+
+	console.log(props.dishes);
+	console.log(props.dishes.dishes);
+
 	const DishWithId = () => {
 		const match = useParams();
 		return (
 			<DishDetail
+				isLoading={props.dishes.isLoading}
+				errorMsg={props.dishes.errorMsg}
 				selectedDish={
-					props.dishes.filter((dish) => {
+					props.dishes.dishes.filter((dish) => {
 						return dish.id === parseInt(match.dishID, 10);
 					})[0]
 				}
@@ -46,20 +64,23 @@ function Main(props) {
 				<Header />
 				<Routes>
 					<Route
-						path="/home"
+						path="/menu"
+						exact
 						element={
-							<Home
-								dish={props.dishes.filter((dish) => dish.featured)[0]}
-								promotion={props.promotions.filter((pro) => pro.featured)[0]}
-								leader={props.leaders.filter((leader) => leader.featured)[0]}
+							<Menu
+								dishesLoading={props.dishes.isLoading}
+								dishesErrorMsg={props.dishes.errorMsg}
+								dishes={props.dishes.dishes}
 							/>
 						}
 					/>
 					<Route
-						index
+						path="/home"
 						element={
 							<Home
-								dish={props.dishes.filter((dish) => dish.featured)[0]}
+								dishesLoading={props.dishes.isLoading}
+								dishesErrorMsg={props.dishes.errorMsg}
+								dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
 								promotion={props.promotions.filter((pro) => pro.featured)[0]}
 								leader={props.leaders.filter((leader) => leader.featured)[0]}
 							/>
@@ -69,7 +90,13 @@ function Main(props) {
 					<Route
 						index
 						element={
-							<Home dish={props.dishes} promotion={props.promotions} leader={props.leaders} />
+							<Home
+								dishesLoading={props.dishes.isLoading}
+								dishesErrorMsg={props.dishes.errorMsg}
+								dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
+								promotion={props.promotions}
+								leader={props.leaders}
+							/>
 						}
 					/>
 					<Route exact path="/contactus" element={<Contact />} />
@@ -82,4 +109,4 @@ function Main(props) {
 	);
 }
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
