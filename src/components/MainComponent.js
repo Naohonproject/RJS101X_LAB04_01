@@ -36,9 +36,6 @@ function Main(props) {
 		props.fetchDishes();
 	}, []);
 
-	console.log(props.dishes);
-	console.log(props.dishes.dishes);
-
 	const DishWithId = () => {
 		const match = useParams();
 		return (

@@ -11,7 +11,7 @@ export const DishesReducer = (
 ) => {
 	switch (action.type) {
 		case actionType.ADD_DISHES:
-			return { ...state, isLoading: false, errorMsg: null, dishes: [action.payload] };
+			return { ...state, isLoading: false, errorMsg: null, dishes: action.payload };
 		case actionType.DISHES_LOADING:
 			return { ...state, isLoading: true, errorMsg: null, dishes: [] };
 		case actionType.DISHES_FAILED:

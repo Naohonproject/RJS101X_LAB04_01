@@ -4,8 +4,6 @@ import React from "react";
 import RenderCard from "./RenderCard";
 
 function Home(props) {
-	console.log(props.dish);
-
 	return (
 		<div style={{ paddingRight: 0, paddingLeft: 0 }} className="container">
 			<div className="row align-item-start">
