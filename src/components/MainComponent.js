@@ -4,6 +4,7 @@ import React, { Component, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import { Action, actions } from "react-redux-form";
 
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
@@ -25,15 +26,30 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		fetchDishes: () => {
+		fetchDishesProp: () => {
 			dispatch(fetchDishes());
+		},
+		resetFeedbackForm: () => {
+			dispatch(actions.reset("feedback"));
 		},
 	};
 }
 
 function Main(props) {
+	// Todo : Lần đầu khi Main được mount vào DOM thì hàm trong đối số Effect của useEffect sẽ được gọi(side Effect) Hàm này chạy sẽ chạy hàm fetchDishes()(là một Thunk creator) hàm này chạy sẽ trả về một thunk action(là một hàm với đối số thứ nhất là dispatch) trong hàm này chúng ta sẽ gọi lại dispatch theo từng thời điểm khác nhau để dispatch các action khác nhau tới store
+
+	// Todo : Main được mount vào DOM , useEffect được chạy,props.fetchDishesProp() được chạy , sau đó  dispatch(fetchDishes()) được chạy , trước đó fetchDishes() chạy trả về hàm:
+	// (dispatch) => {
+	// 	dispatch(dishesLoading(true));
+
+	// 	setTimeout(() => {
+	// 		dispatch(addDishes(DISHES));
+	// 	}, 2000);
+	// };
+	// Todo : hàm này là một thunkAction , việc import thunk từ redux-thunk cho phép chúng ta tuyền vào đối số của hàm dispatch là một hàm thay vì chỉ truyền vào một object thuần túy , hàm chúng ta truyền vào sẽ có đối số thứ nhất là hàm dispatch(là hàm dispatch từ react-redux) và đối số thứ 2 là hàm getstate dùng đẻ lấy ra state hiện tại của store ,trong HÀM ThunkAction này sẽ xử lý các logic bất đồng bộ trước khi thật sự dispatch một action , hoặc chungs ta có thể dispatch nhiều action tới store
+
 	useEffect(() => {
-		props.fetchDishes();
+		props.fetchDishesProp();
 	}, []);
 
 	const DishWithId = () => {
@@ -96,7 +112,11 @@ function Main(props) {
 							/>
 						}
 					/>
-					<Route exact path="/contactus" element={<Contact />} />
+					<Route
+						exact
+						path="/contactus"
+						element={<Contact resetFeedbackForm={props.resetFeedbackForm} />}
+					/>
 					<Route path="/menu/:dishID" element={<DishWithId />}></Route>
 					<Route path="/aboutus" element={<About leaders={props.leaders} />} />
 				</Routes>
