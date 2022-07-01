@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
 
 function Menu({ dishes, dishesErrorMsg, dishesLoading }) {
-	console.log(dishes);
 	if (dishesLoading) {
 		return (
 			<div className="container">

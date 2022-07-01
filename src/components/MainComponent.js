@@ -4,7 +4,7 @@ import React, { Component, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { Action, actions } from "react-redux-form";
+import { actions } from "react-redux-form";
 
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
@@ -15,6 +15,7 @@ import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import { fetchDishes } from "../redux/actions/actionCreators";
 
+// Todo : hàm này định nghĩa phần dữ liệu từ kho chung, cái mà component này muốn lấy và map chúng như là các key của props truyền vào component , điều này cho phép chúng ta chỉ lấy phần dữ liệu chúng ta cần từ store , và chỉ khi phần dữ liệu đó thay đổi thì component của chúng ta mới bị re-render
 const mapStateToProps = (state) => {
 	return {
 		dishes: state.dishes,
@@ -24,6 +25,7 @@ const mapStateToProps = (state) => {
 	};
 };
 
+// Todo : hàm này định nghĩa sẽ định  nghĩa các trường hợp dispatch từ server và đưa nó vào Component thông qua props truyền vào, điều này có được nhờ vào hàm connect từ react-redux
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchDishesProp: () => {
