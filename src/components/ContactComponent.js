@@ -74,6 +74,7 @@ function Contact(props) {
 					<h3>Send us your feedback</h3>
 				</div>
 				<div className="col-12 col-md-12">
+					{/* TODO: ỏ đây ta chỉ ra form state name, cái đã được tạo ra trong redux store và kết nối đến nó, do đó mọi sự thay đổi trong form sẽ được track và dispatch sự kiện tương ứng tới store để lưu giá trị mà người dùng nhập vào từng thời điểm, đó là lý do mà khi ta chuyển sang trang khác tuy nhiên chưa gửi form đi thì các dữ liệu trong form không hệ reset mặc dù khi chuyển trang thì FORM  đã được unmout mà khi trở lại thì nó đã mount lại, điều này có được là nhờ mỗi khi ta thay đổi dữ liệu trong form thì dữ liệu đó được kèm theo dispatch action cài đặt sẵn trong RRF để lưu lại, khi ta quay lại sau khi chuyển trang thì form sẽ tự động lấy dữ liệu trước đó ta đẫ nhập, chỉ khi submit xong thì ta đã cấu hình để Form sẽ dispatch đi sự kiện reset, do đó toàn bộ dữ liệu trong formState ta đã tạo sẽ mất hết , dẫn đến form lúc này sẽ chỉ nhận gíá trị là tương ứng là initialFeedback */}
 					<Form model="feedback" onSubmit={(value) => handleOnSubmit(value)}>
 						<Row className="form-group">
 							<Label htmlFor={"firstname"} md={2}>
