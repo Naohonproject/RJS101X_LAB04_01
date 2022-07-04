@@ -4,6 +4,9 @@ import React from "react";
 import RenderCard from "./RenderCard";
 
 function Home(props) {
+	console.log(props.leader);
+	console.log(props.dish);
+	console.log(props.promotion);
 	return (
 		<div style={{ paddingRight: 0, paddingLeft: 0 }} className="container">
 			<div className="row align-item-start">
@@ -22,7 +25,11 @@ function Home(props) {
 					/>
 				</div>
 				<div className="col-12 col-md mt-1 mb-1">
-					<RenderCard item={props.leader} />
+					<RenderCard
+						item={props.leader}
+						isLoading={props.leadersLoading}
+						errorMsg={props.leadersErrorMsg}
+					/>
 				</div>
 			</div>
 		</div>

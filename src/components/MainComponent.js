@@ -13,7 +13,12 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
-import { fetchDishes, fetchComments, fetchPromos } from "../redux/actions/actionCreators";
+import {
+	fetchDishes,
+	fetchComments,
+	fetchPromos,
+	fetchLeaders,
+} from "../redux/actions/actionCreators";
 
 // Todo : hàm này định nghĩa phần dữ liệu từ kho chung, cái mà component này muốn lấy và map chúng như là các key của props truyền vào component , điều này cho phép chúng ta chỉ lấy phần dữ liệu chúng ta cần từ store , và chỉ khi phần dữ liệu đó thay đổi thì component của chúng ta mới bị re-render
 const mapStateToProps = (state) => {
@@ -37,6 +42,9 @@ function mapDispatchToProps(dispatch) {
 		fetchPromosProp: () => {
 			dispatch(fetchPromos());
 		},
+		fetchLeadersProp: () => {
+			dispatch(fetchLeaders());
+		},
 		resetFeedbackForm: () => {
 			dispatch(actions.reset("feedback"));
 		},
@@ -57,9 +65,11 @@ function Main(props) {
 	// Todo : hàm này là một thunkAction , việc import thunk từ redux-thunk cho phép chúng ta tuyền vào đối số của hàm dispatch là một hàm thay vì chỉ truyền vào một object thuần túy , hàm chúng ta truyền vào sẽ có đối số thứ nhất là hàm dispatch(là hàm dispatch từ react-redux) và đối số thứ 2 là hàm getstate dùng đẻ lấy ra state hiện tại của store ,trong HÀM ThunkAction này sẽ xử lý các logic bất đồng bộ trước khi thật sự dispatch một action , hoặc chungs ta có thể dispatch nhiều action tới store
 
 	useEffect(() => {
+		console.log("test");
 		props.fetchDishesProp();
 		props.fetchCommentsProp();
 		props.fetchPromosProp();
+		props.fetchLeadersProp();
 	}, []);
 
 	const DishWithId = () => {
@@ -81,6 +91,10 @@ function Main(props) {
 			/>
 		);
 	};
+
+	console.log(props.dishes.dishes);
+	console.log(props.leaders.leaders);
+	console.log(props.promotions.promotions);
 
 	return (
 		<div>
@@ -108,7 +122,9 @@ function Main(props) {
 								promosLoading={props.promotions.isLoading}
 								promosErrorMsg={props.promotions.errorMsg}
 								promotion={props.promotions.promotions.filter((pro) => pro.featured)[0]}
-								leader={props.leaders.filter((leader) => leader.featured)[0]}
+								leader={props.leaders.leaders.filter((leader) => leader.featured)[0]}
+								leadersLoading={props.leaders.isLoading}
+								leadersErrorMsg={props.leaders.errorMsg}
 							/>
 						}
 					/>
@@ -122,8 +138,10 @@ function Main(props) {
 								dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
 								promosLoading={props.promotions.isLoading}
 								promosErrorMsg={props.promotions.errorMsg}
-								promotion={props.promotions.promotions}
-								leader={props.leaders}
+								promotion={props.promotions.promotions.filter((pro) => pro.featured)[0]}
+								leader={props.leaders.leaders.filter((leader) => leader.featured)[0]}
+								leadersLoading={props.leaders.isLoading}
+								leadersErrorMsg={props.leaders.errorMsg}
 							/>
 						}
 					/>
@@ -133,7 +151,7 @@ function Main(props) {
 						element={<Contact resetFeedbackForm={props.resetFeedbackForm} />}
 					/>
 					<Route path="/menu/:dishID" element={<DishWithId />}></Route>
-					<Route path="/aboutus" element={<About leaders={props.leaders} />} />
+					<Route path="/aboutus" element={<About leaders={props.leaders.leaders} />} />
 				</Routes>
 				<Footer />
 			</div>

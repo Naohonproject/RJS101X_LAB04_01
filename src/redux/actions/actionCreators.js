@@ -14,11 +14,29 @@ export const addCommentCreator = (data) => {
 
 //Todo : Hàm này là một ThunkActionCreator, nó trả về một Thunk Action, là một hàm với đối số hàm dispatch
 export const fetchDishes = () => (dispatch) => {
-	dispatch(dishesLoading(true));
+	dispatch(dishesLoading());
 
 	fetch(baseUrl + "dishes")
+		.then(
+			(res) => {
+				if (res.ok) {
+					return res;
+				} else {
+					var err = new Error("Error" + res.status + ":" + res.statusText);
+					err.res = res;
+					throw err;
+				}
+			},
+			(error) => {
+				var errorMess = new Error(error.message);
+				throw errorMess;
+			}
+		)
 		.then((res) => res.json())
-		.then((dishes) => dispatch(addDishes(dishes)));
+		.then((dishes) => dispatch(addDishes(dishes)))
+		.catch((error) => {
+			dispatch(dishesFailed(error.message));
+		});
 };
 
 //Todo : Hàm này là một ActionCreator, nó trả về một Action {Plain Object key lần lượt là type và payload, action này không có payload mà nó chỉ có type action vì nó không có nhiệm vụ làm thay đổi store của redux }
@@ -42,8 +60,26 @@ export const dishesFailed = (errorsMsg) => {
 
 export const fetchComments = () => (dispatch) => {
 	fetch(baseUrl + "comments")
+		.then(
+			(res) => {
+				if (res.ok) {
+					return res;
+				} else {
+					var err = new Error("Error" + res.status + ":" + res.statusText);
+					err.res = res;
+					throw err;
+				}
+			},
+			(error) => {
+				var errorMess = new Error(error.message);
+				throw errorMess;
+			}
+		)
 		.then((res) => res.json())
-		.then((comments) => dispatch(addComments(comments)));
+		.then((comments) => dispatch(addComments(comments)))
+		.catch((error) => {
+			dispatch(commentsFailed(error.message));
+		});
 };
 
 export const addComments = (comments) => ({
@@ -59,11 +95,29 @@ export const commentsFailed = (errorsMsg) => {
 };
 
 export const fetchPromos = () => (dispatch) => {
-	dispatch(promosLoading(true));
+	dispatch(promosLoading());
 
 	fetch(baseUrl + "promotions")
+		.then(
+			(res) => {
+				if (res.ok) {
+					return res;
+				} else {
+					var err = new Error("Error" + res.status + ":" + res.statusText);
+					err.res = res;
+					throw err;
+				}
+			},
+			(error) => {
+				var errorMess = new Error(error.message);
+				throw errorMess;
+			}
+		)
 		.then((res) => res.json())
-		.then((promos) => dispatch(addPromos(promos)));
+		.then((promos) => dispatch(addPromos(promos)))
+		.catch((error) => {
+			dispatch(PromosFailed(error.message));
+		});
 };
 
 export const promosLoading = () => {
@@ -80,6 +134,50 @@ export const addPromos = (promos) => ({
 export const PromosFailed = (errorsMsg) => {
 	return {
 		type: actionType.PROMOS_FAILED,
+		payload: errorsMsg,
+	};
+};
+
+export const fetchLeaders = () => (dispatch) => {
+	dispatch(leadersLoading());
+
+	fetch(baseUrl + "leaders")
+		.then(
+			(res) => {
+				if (res.ok) {
+					return res;
+				} else {
+					var err = new Error("Error" + res.status + ":" + res.statusText);
+					err.res = res;
+					throw err;
+				}
+			},
+			(error) => {
+				var errorMess = new Error(error.message);
+				throw errorMess;
+			}
+		)
+		.then((res) => res.json())
+		.then((leaders) => dispatch(addLeaders(leaders)))
+		.catch((error) => {
+			dispatch(LeadersFailed(error.message));
+		});
+};
+
+export const leadersLoading = () => {
+	return {
+		type: actionType.LEADERS_LOADING,
+	};
+};
+
+export const addLeaders = (leaders) => ({
+	type: actionType.ADD_LEADERS,
+	payload: leaders,
+});
+
+export const LeadersFailed = (errorsMsg) => {
+	return {
+		type: actionType.LEADERS_FAILED,
 		payload: errorsMsg,
 	};
 };
