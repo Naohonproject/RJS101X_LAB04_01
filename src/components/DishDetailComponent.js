@@ -15,6 +15,8 @@ import { Loading } from "./LoadingComponent";
 
 import CommentForm from "./CommentFormComponent";
 import {} from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
+
 function DishDetail({ comments, selectedDish, totalNumberOfComments, isLoading, errorMsg }) {
 	function renderComments(comments) {
 		if (comments === null) {
@@ -77,7 +79,12 @@ function DishDetail({ comments, selectedDish, totalNumberOfComments, isLoading, 
 				<div className="row">
 					<div className="col-12 col-md-5 m-1">
 						<Card>
-							<CardImg width="100%" object src={selectedDish.image} alt={selectedDish.name} />
+							<CardImg
+								width="100%"
+								object
+								src={baseUrl + selectedDish.image}
+								alt={selectedDish.name}
+							/>
 							<CardBody>
 								<CardTitle>{selectedDish.name}</CardTitle>
 								<CardText>{selectedDish.description}</CardText>

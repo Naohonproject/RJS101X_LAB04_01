@@ -15,7 +15,11 @@ function Home(props) {
 					/>
 				</div>
 				<div className="col-12 col-md mt-1 mb-1">
-					<RenderCard item={props.promotion} />
+					<RenderCard
+						item={props.promotion}
+						isLoading={props.promosLoading}
+						errorMsg={props.promosErrorMsg}
+					/>
 				</div>
 				<div className="col-12 col-md mt-1 mb-1">
 					<RenderCard item={props.leader} />

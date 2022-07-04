@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -13,7 +13,7 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
-import { fetchDishes } from "../redux/actions/actionCreators";
+import { fetchDishes, fetchComments, fetchPromos } from "../redux/actions/actionCreators";
 
 // Todo : hàm này định nghĩa phần dữ liệu từ kho chung, cái mà component này muốn lấy và map chúng như là các key của props truyền vào component , điều này cho phép chúng ta chỉ lấy phần dữ liệu chúng ta cần từ store , và chỉ khi phần dữ liệu đó thay đổi thì component của chúng ta mới bị re-render
 const mapStateToProps = (state) => {
@@ -30,6 +30,12 @@ function mapDispatchToProps(dispatch) {
 	return {
 		fetchDishesProp: () => {
 			dispatch(fetchDishes());
+		},
+		fetchCommentsProp: () => {
+			dispatch(fetchComments());
+		},
+		fetchPromosProp: () => {
+			dispatch(fetchPromos());
 		},
 		resetFeedbackForm: () => {
 			dispatch(actions.reset("feedback"));
@@ -52,6 +58,8 @@ function Main(props) {
 
 	useEffect(() => {
 		props.fetchDishesProp();
+		props.fetchCommentsProp();
+		props.fetchPromosProp();
 	}, []);
 
 	const DishWithId = () => {
@@ -65,10 +73,11 @@ function Main(props) {
 						return dish.id === parseInt(match.dishID, 10);
 					})[0]
 				}
-				comments={props.comments.filter((comment) => {
+				comments={props.comments.comments.filter((comment) => {
 					return comment.dishId === parseInt(match.dishID, 10);
 				})}
-				totalNumberOfComments={props.comments.length}
+				commentsErrorMsg={props.comments.errorMsg}
+				totalNumberOfComments={props.comments.comments.length}
 			/>
 		);
 	};
@@ -96,7 +105,9 @@ function Main(props) {
 								dishesLoading={props.dishes.isLoading}
 								dishesErrorMsg={props.dishes.errorMsg}
 								dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
-								promotion={props.promotions.filter((pro) => pro.featured)[0]}
+								promosLoading={props.promotions.isLoading}
+								promosErrorMsg={props.promotions.errorMsg}
+								promotion={props.promotions.promotions.filter((pro) => pro.featured)[0]}
 								leader={props.leaders.filter((leader) => leader.featured)[0]}
 							/>
 						}
@@ -109,7 +120,9 @@ function Main(props) {
 								dishesLoading={props.dishes.isLoading}
 								dishesErrorMsg={props.dishes.errorMsg}
 								dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
-								promotion={props.promotions}
+								promosLoading={props.promotions.isLoading}
+								promosErrorMsg={props.promotions.errorMsg}
+								promotion={props.promotions.promotions}
 								leader={props.leaders}
 							/>
 						}
