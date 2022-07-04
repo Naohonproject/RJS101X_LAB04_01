@@ -17,7 +17,14 @@ import CommentForm from "./CommentFormComponent";
 import {} from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
 
-function DishDetail({ comments, selectedDish, totalNumberOfComments, isLoading, errorMsg }) {
+function DishDetail({
+	comments,
+	selectedDish,
+	totalNumberOfComments,
+	isLoading,
+	errorMsg,
+	postComment,
+}) {
 	function renderComments(comments) {
 		if (comments === null) {
 			return <div></div>;
@@ -36,7 +43,11 @@ function DishDetail({ comments, selectedDish, totalNumberOfComments, isLoading, 
 						})}
 					</ul>
 					<div className="mt-5">
-						<CommentForm dishId={selectedDish.id} totalNumberOfComments={totalNumberOfComments} />
+						<CommentForm
+							dishId={selectedDish.id}
+							totalNumberOfComments={totalNumberOfComments}
+							postComment={postComment}
+						/>
 					</div>
 				</div>
 			);

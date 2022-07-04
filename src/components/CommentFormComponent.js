@@ -5,8 +5,6 @@ import { Modal, ModalHeader, ModalBody, Button, Label, Col, Row } from "reactstr
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { connect } from "react-redux";
 
-import { addCommentCreator } from "../redux/actions/actionCreators";
-
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
@@ -34,7 +32,7 @@ class CommentForm extends Component {
 			date: new Date().toISOString(),
 		};
 
-		this.props.dispatch(addCommentCreator(comment));
+		this.props.postComment(comment);
 
 		this.setState((prev) => ({
 			...this.state,

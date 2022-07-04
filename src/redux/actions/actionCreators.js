@@ -5,11 +5,41 @@ import * as actionType from "./actionTypes";
 import { baseUrl } from "../../shared/baseUrl";
 
 //Todo : Hàm này là một ActionCreator, nó trả về một Action {Plain Object key lần lượt là type và payload}
-export const addCommentCreator = (data) => {
-	return {
-		type: actionType.ADD_COMMENT,
-		payload: data,
-	};
+
+export const addComment = (comment) => ({
+	type: actionType.ADD_COMMENT,
+	payload: comment,
+});
+
+export const postComment = (comment) => (dispatch) => {
+	return fetch(baseUrl + "comments", {
+		method: "POST",
+		body: JSON.stringify(comment),
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "same-origin",
+	})
+		.then(
+			(response) => {
+				if (response.ok) {
+					return response;
+				} else {
+					var error = new Error("Error " + response.status + ": " + response.statusText);
+					error.response = response;
+					throw error;
+				}
+			},
+			(error) => {
+				throw error;
+			}
+		)
+		.then((response) => response.json())
+		.then((response) => dispatch(addComment(response)))
+		.catch((error) => {
+			console.log("post comments", error.message);
+			alert("Your comment could not be posted\nError: " + error.message);
+		});
 };
 
 //Todo : Hàm này là một ThunkActionCreator, nó trả về một Thunk Action, là một hàm với đối số hàm dispatch

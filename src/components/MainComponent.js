@@ -18,6 +18,7 @@ import {
 	fetchComments,
 	fetchPromos,
 	fetchLeaders,
+	postComment,
 } from "../redux/actions/actionCreators";
 
 // Todo : hàm này định nghĩa phần dữ liệu từ kho chung, cái mà component này muốn lấy và map chúng như là các key của props truyền vào component , điều này cho phép chúng ta chỉ lấy phần dữ liệu chúng ta cần từ store , và chỉ khi phần dữ liệu đó thay đổi thì component của chúng ta mới bị re-render
@@ -33,6 +34,9 @@ const mapStateToProps = (state) => {
 // Todo : hàm này định nghĩa sẽ định  nghĩa các trường hợp dispatch từ server và đưa nó vào Component thông qua props truyền vào, điều này có được nhờ vào hàm connect từ react-redux
 function mapDispatchToProps(dispatch) {
 	return {
+		postCommentProp: (comment) => {
+			dispatch(postComment(comment));
+		},
 		fetchDishesProp: () => {
 			dispatch(fetchDishes());
 		},
@@ -65,7 +69,6 @@ function Main(props) {
 	// Todo : hàm này là một thunkAction , việc import thunk từ redux-thunk cho phép chúng ta tuyền vào đối số của hàm dispatch là một hàm thay vì chỉ truyền vào một object thuần túy , hàm chúng ta truyền vào sẽ có đối số thứ nhất là hàm dispatch(là hàm dispatch từ react-redux) và đối số thứ 2 là hàm getstate dùng đẻ lấy ra state hiện tại của store ,trong HÀM ThunkAction này sẽ xử lý các logic bất đồng bộ trước khi thật sự dispatch một action , hoặc chungs ta có thể dispatch nhiều action tới store
 
 	useEffect(() => {
-		console.log("test");
 		props.fetchDishesProp();
 		props.fetchCommentsProp();
 		props.fetchPromosProp();
@@ -83,6 +86,7 @@ function Main(props) {
 						return dish.id === parseInt(match.dishID, 10);
 					})[0]
 				}
+				postComment={props.postCommentProp}
 				comments={props.comments.comments.filter((comment) => {
 					return comment.dishId === parseInt(match.dishID, 10);
 				})}
@@ -91,10 +95,6 @@ function Main(props) {
 			/>
 		);
 	};
-
-	console.log(props.dishes.dishes);
-	console.log(props.leaders.leaders);
-	console.log(props.promotions.promotions);
 
 	return (
 		<div>
