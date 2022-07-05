@@ -273,6 +273,22 @@
       "comment": "gooood",
       "author": "le tuan bao",
       "date": "2022-07-04T23:15:01.593Z"
+    },
+    {
+      "id": 29,
+      "dishId": 3,
+      "rating": 3,
+      "comment": "goood",
+      "author": "le tuan bao",
+      "date": "2022-07-04T23:37:02.269Z"
+    },
+    {
+      "id": 30,
+      "dishId": 0,
+      "rating": 3,
+      "comment": "Good meal",
+      "author": "Le Thi Nhung",
+      "date": "2022-07-05T22:38:07.748Z"
     }
   ],
   "promotions": [
