@@ -1,12 +1,10 @@
 /** @format */
 
 import React from "react";
+
 import RenderCard from "./RenderCard";
 
 function Home(props) {
-	console.log(props.leader);
-	console.log(props.dish);
-	console.log(props.promotion);
 	return (
 		<div style={{ paddingRight: 0, paddingLeft: 0 }} className="container">
 			<div className="row align-item-start">

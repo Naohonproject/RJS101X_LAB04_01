@@ -13,8 +13,7 @@ const validEmail = (val) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test
 
 function Contact(props) {
 	function handleOnSubmit(value) {
-		console.log("current State is : " + JSON.stringify(value));
-		alert("current State is : " + JSON.stringify(value));
+		props.postFeedback(value);
 		props.resetFeedbackForm();
 	}
 	return (

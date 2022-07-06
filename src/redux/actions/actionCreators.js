@@ -42,6 +42,51 @@ export const postComment = (comment) => (dispatch) => {
 		});
 };
 
+export const postFeedback = (feedback) => (dispatch) => {
+	return fetch(baseUrl + "feedback", {
+		method: "POST",
+		body: JSON.stringify(feedback),
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "same-origin",
+	})
+		.then(
+			(response) => {
+				if (response.ok) {
+					return response;
+				} else {
+					var error = new Error("Error " + response.status + ": " + response.statusText);
+					error.response = response;
+					throw error;
+				}
+			},
+			(error) => {
+				throw error;
+			}
+		)
+		.then((response) => response.json())
+		.then((response) => {
+			alert(JSON.stringify(response));
+			dispatch(addFeedback(response));
+		})
+		.catch((error) => {
+			dispatch(feedbackFailed(error.message));
+		});
+};
+
+export const addFeedback = (feedback) => ({
+	type: actionType.ADD_FEEDBACK,
+	payload: feedback,
+});
+
+export const feedbackFailed = (errorsMsg) => {
+	return {
+		type: actionType.FEEDBACK_FAILED,
+		payload: errorsMsg,
+	};
+};
+
 //Todo : Hàm này là một ThunkActionCreator, nó trả về một Thunk Action, là một hàm với đối số hàm dispatch
 export const fetchDishes = () => (dispatch) => {
 	dispatch(dishesLoading());

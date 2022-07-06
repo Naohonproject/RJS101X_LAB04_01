@@ -11,8 +11,9 @@ import {
 } from "reactstrap";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
-import { Loading } from "./LoadingComponent";
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
+import { Loading } from "./LoadingComponent";
 import CommentForm from "./CommentFormComponent";
 import {} from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
@@ -33,14 +34,18 @@ function DishDetail({
 				<div>
 					<h4>COMMENTS</h4>
 					<ul className="list-unstyled">
-						{comments.map((comment) => {
-							return (
-								<li key={comment.id}>
-									<p>{comment.comment}</p>
-									<p>{"--" + comment.author + dateFormat(comment.date)}</p>
-								</li>
-							);
-						})}
+						<Stagger in>
+							{comments.map((comment) => {
+								return (
+									<Fade in>
+										<li key={comment.id}>
+											<p>{comment.comment}</p>
+											<p>{"--" + comment.author + dateFormat(comment.date)}</p>
+										</li>
+									</Fade>
+								);
+							})}
+						</Stagger>
 					</ul>
 					<div className="mt-5">
 						<CommentForm
@@ -89,18 +94,24 @@ function DishDetail({
 				</div>
 				<div className="row">
 					<div className="col-12 col-md-5 m-1">
-						<Card>
-							<CardImg
-								width="100%"
-								object
-								src={baseUrl + selectedDish.image}
-								alt={selectedDish.name}
-							/>
-							<CardBody>
-								<CardTitle>{selectedDish.name}</CardTitle>
-								<CardText>{selectedDish.description}</CardText>
-							</CardBody>
-						</Card>
+						<FadeTransform
+							in
+							transformProps={{
+								exitTransform: "scale(0.5) translateY(-50%)",
+							}}>
+							<Card>
+								<CardImg
+									width="100%"
+									object
+									src={baseUrl + selectedDish.image}
+									alt={selectedDish.name}
+								/>
+								<CardBody>
+									<CardTitle>{selectedDish.name}</CardTitle>
+									<CardText>{selectedDish.description}</CardText>
+								</CardBody>
+							</Card>
+						</FadeTransform>
 					</div>
 					<div className="col-12 col-md-5 m-1">{renderComments(comments)}</div>
 				</div>
